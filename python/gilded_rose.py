@@ -7,33 +7,40 @@ class GildedRose(object):
 
     def update_quality(self):
         for item in self.items:
-            if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
-                if item.quality > 0:
-                    if item.name != "Sulfuras, Hand of Ragnaros":
-                        item.quality = item.quality - 1
-            else:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
-                    if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                        if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                        if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-            if item.name != "Sulfuras, Hand of Ragnaros":
-                item.sell_in = item.sell_in - 1
-            if item.sell_in < 0:
-                if item.name != "Aged Brie":
-                    if item.name != "Backstage passes to a TAFKAL80ETC concert":
-                        if item.quality > 0:
-                            if item.name != "Sulfuras, Hand of Ragnaros":
-                                item.quality = item.quality - 1
-                    else:
-                        item.quality = item.quality - item.quality
+
+            if "Sulfuras" in item.name: # "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
+                continue
+
+            multiplier = 1 # I'm using a multiplier to track if something is conjured. Who knows, maybe you'll have a conjured Aged Brie someday
+            if "Conjured" in item.name:
+                multiplier = 2
+
+            if "Aged Brie" in item.name:
+                if item.sell_in == 0:
+                    item.quality += 2 * multiplier
                 else:
-                    if item.quality < 50:
-                        item.quality = item.quality + 1
+                    item.quality += 1 * multiplier
+
+            elif "Backstage passes" in item.name:
+                if item.sell_in == 0:
+                    item.quality = 0
+                elif item.sell_in <= 5:
+                    item.quality += 3 * multiplier
+                elif item.sell_in <= 10:
+                    item.quality += 2 * multiplier
+                else:
+                    item.quality += 1 * multiplier
+
+            else:
+                if item.quality == 0:
+                    continue
+                if item.sell_in == 0:
+                    item.quality -= 2 * multiplier
+                else:
+                    item.quality -= 1 * multiplier
+
+            if item.sell_in != 0:
+                item.sell_in -= 1
 
 
 class Item:
