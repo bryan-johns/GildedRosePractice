@@ -29,8 +29,8 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEquals(80, items[3].quality)
         self.assertEquals(80, items[4].quality)
         self.assertEquals(25, items[5].quality)
-        self.assertEquals(59, items[6].quality)
-        self.assertEquals(64, items[7].quality)
+        self.assertEquals(50, items[6].quality)
+        self.assertEquals(50, items[7].quality)
         self.assertEquals(0, items[8].quality)
 
     def test_sell_in_control(self):

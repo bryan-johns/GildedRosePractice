@@ -39,6 +39,9 @@ class GildedRose(object):
                 else:
                     item.quality -= 1 * multiplier
 
+            if item.quality >= 50:
+                item.quality = 50
+
             if item.sell_in != 0:
                 item.sell_in -= 1
 
